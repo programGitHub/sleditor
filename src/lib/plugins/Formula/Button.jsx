@@ -1,8 +1,9 @@
-import React, { useMemo, useState } from 'react';
-import { categories } from './Highlight';
+import React, { useState } from 'react';
+import FormulaEditor from './FormulaEditor';
+import FullscreenIcon from '@material-ui/icons/Fullscreen';
+import FunctionsIcon from '@material-ui/icons/Functions';
 import IconButton from '@material-ui/core/IconButton';
-import HighlightIcon from '@material-ui/icons/Highlight';
-import HighlightEditor from './HighlightEditor';
+import LinearIcon from '@material-ui/icons/LinearScale';
 import Popover from 'lib/components/Popover';
 import { useSlate } from 'slate-react';
 
@@ -12,14 +13,6 @@ import { useSlate } from 'slate-react';
 const Button = () => {
   const [anchorEl, setAnchorEl] = useState(null);
   const editor = useSlate();
-  const arr = useMemo(
-    () =>
-      Object.keys(categories).map(e => ({
-        ...categories[e],
-        id: e
-      })),
-    []
-  );
 
   const onClose = () => {
     setAnchorEl(null);
@@ -29,15 +22,16 @@ const Button = () => {
     setAnchorEl(e.target);
   };
 
-  const handleCategory = cat => () => {
-    HighlightEditor.toggle(editor, cat);
+  const handleClick = val => e => {
+    e.preventDefault();
+    FormulaEditor.insert(editor, val, '2x+1');
     onClose();
   };
 
   return (
     <React.Fragment>
       <IconButton onClick={onOpen}>
-        <HighlightIcon />
+        <FunctionsIcon />
       </IconButton>
       <Popover
         anchorOrigin={{ horizontal: 'center', vertical: 'bottom' }}
@@ -49,11 +43,12 @@ const Button = () => {
           horizontal: 'center'
         }}
       >
-        {arr.map(({ icon, id }) => (
-          <IconButton key={id} onClick={handleCategory(id)} size="small">
-            {icon}
-          </IconButton>
-        ))}
+        <IconButton onClick={handleClick('formula_block')} size="small">
+          <FullscreenIcon />
+        </IconButton>
+        <IconButton onClick={handleClick('formula_inline')} size="small">
+          <LinearIcon />
+        </IconButton>
       </Popover>
     </React.Fragment>
   );

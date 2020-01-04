@@ -28,7 +28,7 @@ function toggle(editor, category) {
 
   if (!active) {
     const block = {
-      category: 'info',
+      category,
       children: [],
       type: TYPE
     };

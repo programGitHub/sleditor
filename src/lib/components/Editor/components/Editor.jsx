@@ -1,6 +1,7 @@
 import React, { useCallback, useMemo, useState } from 'react';
 import PropTypes from 'prop-types';
 import { Button as ButtonBold } from 'lib/plugins/Bold';
+import { Button as ButtonFormula, withFormula } from 'lib/plugins/Formula';
 import {
   Button as ButtonHighlight,
   withHighlight
@@ -17,6 +18,7 @@ import { Editable, Slate, withReact } from 'slate-react';
 import Element from './Element';
 import Leaf from './Leaf';
 import Toolbar from '@material-ui/core/Toolbar';
+import withID from 'lib/plugins/ID';
 import { withParagraph } from 'lib/plugins/Paragraph';
 import 'typeface-roboto';
 
@@ -29,8 +31,12 @@ const Editor = ({ onChange, value }) => {
   const renderLeaf = useCallback(props => <Leaf {...props} />, []);
   const editor = useMemo(
     () =>
-      withParagraph(
-        withHighlight(withList(withImage(withLink(withReact(createEditor())))))
+      withFormula(
+        withParagraph(
+          withHighlight(
+            withList(withImage(withLink(withID(withReact(createEditor())))))
+          )
+        )
       ),
     []
   );
@@ -46,6 +52,7 @@ const Editor = ({ onChange, value }) => {
             <ButtonBold />
             <ButtonTitle />
             <ButtonLink />
+            <ButtonFormula />
             <ButtonImage />
             <ButtonHighlight />
             <ButtonBullet />

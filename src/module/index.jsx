@@ -7,16 +7,26 @@ import Editor from 'lib';
 const App = () => {
   const [value, setValue] = useState([
     {
+      id: 'test_1',
       children: [{ text: 'A line of text in a paragraph.' }],
       type: 'paragraph'
     },
     {
+      id: 'test_2',
+      children: [{ text: '' }],
+      math: '2x+4',
+      type: 'formula_block'
+    },
+    {
+      id: 'test_6',
       children: [
         {
+          id: 'test_3',
           children: [{ text: 'ceci est un test' }],
           type: 'paragraph'
         },
         {
+          id: 'test_4',
           children: [{ text: 'ceci est un test' }],
           type: 'paragraph'
         }
@@ -24,6 +34,7 @@ const App = () => {
       type: 'highlight'
     },
     {
+      id: 'test_5',
       children: [{ text: '' }],
       type: 'image',
       url:

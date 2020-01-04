@@ -17,6 +17,7 @@ function withParagraph(editor) {
         };
 
         Transforms.insertNodes(editor, paragraph, { at: [children.length] });
+        return;
       }
     }
 

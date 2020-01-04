@@ -32,40 +32,38 @@ const Image = React.forwardRef(({ align, children, url, ...props }, ref) => {
   const active = (focused && selected) || open;
 
   return (
-    <React.Fragment>
+    <Box
+      {...props}
+      display="flex"
+      justifyContent={align}
+      position="relative"
+      ref={ref}
+    >
       <Box
-        {...props}
-        display="flex"
-        justifyContent={align}
-        position="relative"
-        ref={ref}
+        contentEditable={false}
+        onClick={() => {
+          setOpen(true);
+        }}
       >
-        <Box
-          contentEditable={false}
-          onClick={() => {
-            setOpen(true);
+        <ClickAwayListener
+          onClickAway={() => {
+            setOpen(false);
           }}
         >
-          <ClickAwayListener
-            onClickAway={() => {
-              setOpen(false);
-            }}
-          >
-            <Popup open={open}>
-              <Form align={align} url={url} />
-            </Popup>
-          </ClickAwayListener>
-          <img
-            alt=""
-            className={clsx(classes.img, {
-              [classes.active]: active
-            })}
-            src={url}
-          />
-        </Box>
-        {children}
+          <Popup open={open}>
+            <Form align={align} url={url} />
+          </Popup>
+        </ClickAwayListener>
+        <img
+          alt=""
+          className={clsx(classes.img, {
+            [classes.active]: active
+          })}
+          src={url}
+        />
       </Box>
-    </React.Fragment>
+      {children}
+    </Box>
   );
 });
 

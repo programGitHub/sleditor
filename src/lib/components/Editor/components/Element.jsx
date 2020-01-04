@@ -1,5 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import { FormulaBlock, FormulaInline } from 'lib/plugins/Formula';
 import { Highlight } from 'lib/plugins/Highlight';
 import { Image } from 'lib/plugins/Image';
 import { Link } from 'lib/plugins/Link';
@@ -12,6 +13,20 @@ import { Title } from 'lib/plugins/Title';
  */
 const Element = ({ attributes, children, element }) => {
   switch (element.type) {
+    case 'formula_block':
+      return (
+        <FormulaBlock {...attributes} {...element}>
+          {children}
+        </FormulaBlock>
+      );
+
+    case 'formula_inline':
+      return (
+        <FormulaInline {...attributes} {...element}>
+          {children}
+        </FormulaInline>
+      );
+
     case 'highlight':
       return (
         <Highlight {...attributes} {...element}>

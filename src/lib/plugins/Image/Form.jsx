@@ -26,6 +26,7 @@ const Form = ({ align, url }) => {
   return (
     <React.Fragment>
       <TextField
+        autoFocus
         fullWidth
         margin="normal"
         multiline
