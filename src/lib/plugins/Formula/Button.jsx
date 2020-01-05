@@ -1,38 +1,38 @@
 import React, { useState } from 'react';
 import FormulaEditor from './FormulaEditor';
-import FullscreenIcon from '@material-ui/icons/Fullscreen';
 import FunctionsIcon from '@material-ui/icons/Functions';
 import IconButton from '@material-ui/core/IconButton';
-import LinearIcon from '@material-ui/icons/LinearScale';
+import MenuPopup from './MenuPopup';
 import Popover from 'lib/components/Popover';
+import { useAnchor } from 'lib/hooks';
 import { useSlate } from 'slate-react';
 
 /**
  * Button
  */
 const Button = () => {
-  const [anchorEl, setAnchorEl] = useState(null);
+  const [anchorEl, onClose, onOpen] = useAnchor();
+  const [selection, setSelection] = useState(null);
   const editor = useSlate();
 
-  const onClose = () => {
-    setAnchorEl(null);
+  const handleOpen = (...args) => {
+    if (editor.selection) {
+      setSelection(editor.selection);
+      onOpen(...args);
+    }
   };
 
-  const onOpen = e => {
-    setAnchorEl(e.target);
-  };
-
-  const handleClick = val => e => {
-    e.preventDefault();
-    FormulaEditor.insert(editor, val, '2x+1');
+  const handleValid = (type, math) => {
+    FormulaEditor.insert(editor, type, math, selection);
     onClose();
   };
 
   return (
     <React.Fragment>
-      <IconButton onClick={onOpen}>
+      <IconButton onClick={handleOpen}>
         <FunctionsIcon />
       </IconButton>
+
       <Popover
         anchorOrigin={{ horizontal: 'center', vertical: 'bottom' }}
         anchorEl={anchorEl}
@@ -43,12 +43,7 @@ const Button = () => {
           horizontal: 'center'
         }}
       >
-        <IconButton onClick={handleClick('formula_block')} size="small">
-          <FullscreenIcon />
-        </IconButton>
-        <IconButton onClick={handleClick('formula_inline')} size="small">
-          <LinearIcon />
-        </IconButton>
+        <MenuPopup onValid={handleValid} />
       </Popover>
     </React.Fragment>
   );

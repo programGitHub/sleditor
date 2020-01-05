@@ -16,21 +16,27 @@ function unwrap(editor) {
   });
 }
 
-function wrap(editor, url) {
-  const { selection } = editor;
+function update(editor, id, data) {
+  Transforms.setNodes(editor, data, {
+    at: [],
+    match: n => n.id === id
+  });
+}
+
+function wrap(editor, url, text, selection) {
   const isCollapsed = selection && Range.isCollapsed(selection);
 
   const link = {
-    children: isCollapsed ? [{ text: url }] : [],
+    children: isCollapsed ? [{ text }] : [],
     type: TYPE,
     url
   };
 
   if (isCollapsed) {
-    Transforms.insertNodes(editor, link);
+    Transforms.insertNodes(editor, link, { at: selection });
   } else {
-    Transforms.wrapNodes(editor, link, { split: true });
-    Transforms.collapse(editor, { edge: 'end' });
+    Transforms.wrapNodes(editor, link, { at: selection, split: true });
+    Transforms.collapse(editor, { at: selection, edge: 'end' });
   }
 }
 
@@ -38,5 +44,6 @@ export default {
   ...Editor,
   isActive,
   unwrap,
+  update,
   wrap
 };

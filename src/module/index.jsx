@@ -8,7 +8,16 @@ const App = () => {
   const [value, setValue] = useState([
     {
       id: 'test_1',
-      children: [{ text: 'A line of text in a paragraph.' }],
+      children: [
+        { text: 'A line of text in a paragraph.' },
+        {
+          children: [{ text: 'Un Super Lien' }],
+          id: 'testLink',
+          type: 'link',
+          url: 'url'
+        },
+        { text: 'A line of text in a paragraph.' }
+      ],
       type: 'paragraph'
     },
     {

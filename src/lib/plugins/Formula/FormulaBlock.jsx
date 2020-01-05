@@ -6,9 +6,6 @@ import { MathBlock } from 'lib/components/Math';
 import PopoverTextField from 'lib/components/PopoverTextField';
 import { useAnchor } from 'lib/hooks';
 import { useSlate } from 'slate-react';
-import * as test from 'slate';
-
-console.log(test);
 
 /**
  * FormulaBlock
@@ -25,7 +22,13 @@ const FormulaBlock = React.forwardRef(
 
     return (
       <React.Fragment>
-        <Box {...props} onClick={onOpen} ref={ref}>
+        <Box
+          {...props}
+          onClick={() => {
+            onOpen({ target: ref.current });
+          }}
+          ref={ref}
+        >
           <MathBlock align="center" color="textPrimary" paragraph variant="h5">
             {math}
           </MathBlock>

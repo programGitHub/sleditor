@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import PropTypes from 'prop-types';
+import Box from '@material-ui/core/Box';
 import Popover from 'lib/components/Popover';
 import TextField from '@material-ui/core/TextField';
 
@@ -23,16 +24,18 @@ const PopoverTextField = ({ inputProps, onChange, value, ...props }) => {
       }}
       {...props}
     >
-      <TextField
-        {...inputProps}
-        autoFocus
-        fullWidth
-        margin="dense"
-        multiline
-        onChange={handleChange}
-        value={v}
-        variant="outlined"
-      />
+      <Box width={350}>
+        <TextField
+          {...inputProps}
+          autoFocus
+          fullWidth
+          margin="dense"
+          multiline
+          onChange={handleChange}
+          value={v}
+          variant="outlined"
+        />
+      </Box>
     </Popover>
   );
 };

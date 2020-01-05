@@ -1,6 +1,6 @@
 import { Editor, Transforms } from 'slate';
 
-function insert(editor, type, math) {
+function insert(editor, type, math, selection = null) {
   const text = { text: '' };
   const block = {
     children: [text],
@@ -8,15 +8,13 @@ function insert(editor, type, math) {
     math
   };
 
-  Transforms.insertNodes(editor, block);
+  Transforms.insertNodes(editor, block, { at: selection });
 }
 
 function update(editor, id, data) {
-  console.log(id, data);
   Transforms.setNodes(editor, data, {
-    match: n => {
-      console.log('testtessettse', n);
-    }
+    at: [],
+    match: n => n.id === id
   });
 }
 
