@@ -1,6 +1,6 @@
 import { Editor, Transforms } from 'slate';
 
-function insert(editor, url) {
+function insert(editor, url, selection) {
   const text = { text: '' };
   const image = {
     children: [text],
@@ -8,11 +8,11 @@ function insert(editor, url) {
     url
   };
 
-  Transforms.insertNodes(editor, image);
+  Transforms.insertNodes(editor, image, { at: selection });
 }
 
-function update(editor, data) {
-  Transforms.setNodes(editor, data);
+function update(editor, id, data) {
+  Transforms.setNodes(editor, data, { at: [], match: n => n.id === id });
 }
 
 export default {

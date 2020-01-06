@@ -1,5 +1,4 @@
 import { Editor, Element, Transforms } from 'slate';
-import shortid from 'shortid';
 
 const type = {
   BULLET: 'list-bullet',
@@ -9,16 +8,25 @@ const type = {
 
 function getStart(editor, id) {
   const { children: nodes } = editor;
-  const lists = nodes.filter(node => node.type === type.NUMBER && node.follow);
+  const lists = nodes.filter(node => node.type === type.NUMBER);
   const index = lists.findIndex(node => node.id === id);
 
   if (index === 0) {
     return 1;
   }
 
-  return lists
-    .slice(0, index)
-    .reduce((stack, node) => stack + node.children.length, 1);
+  const antecedents = lists.slice(0, index);
+  const last = antecedents.pop();
+
+  if (!last) {
+    return 1;
+  }
+
+  if (!last.follow) {
+    return last.children.length + 1;
+  }
+
+  return getStart(editor, last.id) + last.children.length;
 }
 
 function isActive(editor, listType) {
@@ -57,8 +65,6 @@ function toggle(editor, listType) {
       listType === 'list-number'
         ? {
             children: [],
-            follow: true,
-            id: shortid.generate(),
             type: listType
           }
         : {
@@ -70,11 +76,19 @@ function toggle(editor, listType) {
   }
 }
 
+function update(editor, id, data) {
+  Transforms.setNodes(editor, data, {
+    at: [],
+    match: n => n.id === id
+  });
+}
+
 export default {
   ...Editor,
   getStart,
   isActive,
   isList,
   isListItem,
-  toggle
+  toggle,
+  update
 };

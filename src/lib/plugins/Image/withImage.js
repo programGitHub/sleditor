@@ -1,7 +1,7 @@
 import isUrl from 'lib/helpers/isUrl';
 import ImageEditor from './ImageEditor';
 
-function isImageUrl(str) {
+export function isImageUrl(str) {
   if (!str || !isUrl(str)) {
     return false;
   }

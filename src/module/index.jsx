@@ -7,6 +7,36 @@ import Editor from 'lib';
 const App = () => {
   const [value, setValue] = useState([
     {
+      children: [
+        { text: 'Title ' },
+        {
+          children: [{ text: '' }],
+          id: 'math_1',
+          math: '2x',
+          type: 'formula_inline'
+        },
+        { text: ' with formula.' }
+      ],
+      id: 'title_1',
+      type: 'title'
+    },
+    {
+      children: [
+        {
+          children: [{ text: 'list item 1' }],
+          id: 'listItem1',
+          type: 'list-item'
+        },
+        {
+          children: [{ text: 'list item 2' }],
+          id: 'listItem2',
+          type: 'list-item'
+        }
+      ],
+      id: 'list_1',
+      type: 'list-number'
+    },
+    {
       id: 'test_1',
       children: [
         { text: 'A line of text in a paragraph.' },
@@ -19,6 +49,22 @@ const App = () => {
         { text: 'A line of text in a paragraph.' }
       ],
       type: 'paragraph'
+    },
+    {
+      children: [
+        {
+          children: [{ text: 'list item 3' }],
+          id: 'listItem3',
+          type: 'list-item'
+        },
+        {
+          children: [{ text: 'list item 4' }],
+          id: 'listItem4',
+          type: 'list-item'
+        }
+      ],
+      id: 'list_2',
+      type: 'list-number'
     },
     {
       id: 'test_2',

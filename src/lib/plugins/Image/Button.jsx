@@ -1,27 +1,50 @@
-import React from 'react';
+import React, { useState } from 'react';
 import IconButton from '@material-ui/core/IconButton';
 import ImageIcon from '@material-ui/icons/Image';
 import ImageEditor from './ImageEditor';
+import MenuPopup from './MenuPopup';
+import Popover from 'lib/components/Popover';
+import { useAnchor } from 'lib/hooks';
 import { useSlate } from 'slate-react';
 
 /**
  * Button
  */
 const Button = () => {
+  const [anchorEl, onClose, onOpen] = useAnchor();
+  const [selection, setSelection] = useState(null);
   const editor = useSlate();
 
-  const handleClick = e => {
-    e.preventDefault();
-    ImageEditor.insert(
-      editor,
-      'https://images.unsplash.com/photo-1532450106241-ed30d951fbb5?ixlib=rb-1.2.1&q=80&fm=jpg&crop=entropy&cs=tinysrgb&w=1080&fit=max&ixid=eyJhcHBfaWQiOjF9'
-    );
+  const handleOpen = (...args) => {
+    if (editor.selection) {
+      setSelection(editor.selection);
+      onOpen(...args);
+    }
+  };
+
+  const handleValid = url => {
+    ImageEditor.insert(editor, url, selection);
+    onClose();
   };
 
   return (
-    <IconButton onClick={handleClick}>
-      <ImageIcon />
-    </IconButton>
+    <React.Fragment>
+      <IconButton onClick={handleOpen}>
+        <ImageIcon />
+      </IconButton>
+      <Popover
+        anchorOrigin={{ horizontal: 'center', vertical: 'bottom' }}
+        anchorEl={anchorEl}
+        onClose={onClose}
+        open={Boolean(anchorEl)}
+        transformOrigin={{
+          vertical: 'top',
+          horizontal: 'center'
+        }}
+      >
+        <MenuPopup onValid={handleValid} />
+      </Popover>
+    </React.Fragment>
   );
 };
 

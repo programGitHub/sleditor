@@ -1,4 +1,4 @@
-import React, { useEffect, useRef } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import PropTypes from 'prop-types';
 import KateX from 'katex';
 import Typography from '@material-ui/core/Typography';
@@ -9,14 +9,32 @@ import 'katex/dist/katex.min.css';
  */
 const MathComponent = ({ children, component, ...props }) => {
   const ref = useRef(null);
+  const [err, setErr] = useState(null);
 
   useEffect(() => {
-    if (ref.current) {
-      KateX.render(children, ref.current);
+    try {
+      if (ref.current) {
+        KateX.render(children, ref.current);
+      }
+      setErr(null);
+    } catch (e) {
+      setErr(e.message);
     }
   }, [children]);
 
-  return <Typography {...props} component={component} ref={ref} />;
+  console.log(err);
+
+  return (
+    <Typography
+      variant="inherit"
+      {...props}
+      color={err ? 'error' : 'inherit'}
+      component={component}
+      ref={ref}
+    >
+      {err}
+    </Typography>
+  );
 };
 
 MathComponent.defaultProps = {

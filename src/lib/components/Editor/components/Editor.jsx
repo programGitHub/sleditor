@@ -12,7 +12,7 @@ import ButtonReadOnly from './ButtonReadOnly';
 import { Button as ButtonTitle } from 'lib/plugins/Title';
 import { ButtonBullet, ButtonNumber, withList } from 'lib/plugins/List';
 import Container from './Container';
-import { createEditor } from 'slate';
+import { createEditor, Transforms } from 'slate';
 import CssBaseline from '@material-ui/core/CssBaseline';
 import { Editable, Slate, withReact } from 'slate-react';
 import Element from './Element';
@@ -27,6 +27,7 @@ import 'typeface-roboto';
  */
 const Editor = ({ onChange, value }) => {
   const [readOnly, setReadOnly] = useState(false);
+  const [selection, setSelection] = useState(null);
   const renderElement = useCallback(props => <Element {...props} />, []);
   const renderLeaf = useCallback(props => <Leaf {...props} />, []);
   const editor = useMemo(
@@ -65,6 +66,12 @@ const Editor = ({ onChange, value }) => {
             />
           </Toolbar>
           <Editable
+            onBlur={() => {
+              setSelection(editor.selection);
+            }}
+            onFocus={() => {
+              if (selection) Transforms.select(editor, selection);
+            }}
             readOnly={readOnly}
             renderElement={renderElement}
             renderLeaf={renderLeaf}
