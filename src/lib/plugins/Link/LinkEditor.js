@@ -16,10 +16,10 @@ function unwrap(editor) {
   });
 }
 
-function update(editor, id, data) {
+function update(editor, selection, data) {
   Transforms.setNodes(editor, data, {
-    at: [],
-    match: n => n.id === id
+    at: selection,
+    match: n => n.type === TYPE
   });
 }
 
@@ -32,11 +32,13 @@ function wrap(editor, url, text, selection) {
     url
   };
 
+  Transforms.select(editor, selection);
+
   if (isCollapsed) {
-    Transforms.insertNodes(editor, link, { at: selection });
+    Transforms.insertNodes(editor, link);
   } else {
-    Transforms.wrapNodes(editor, link, { at: selection, split: true });
-    Transforms.collapse(editor, { at: selection, edge: 'end' });
+    Transforms.wrapNodes(editor, link, { split: true });
+    Transforms.collapse(editor, { edge: 'end' });
   }
 }
 

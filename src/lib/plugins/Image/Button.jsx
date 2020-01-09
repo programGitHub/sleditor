@@ -1,9 +1,10 @@
 import React, { useState } from 'react';
-import IconButton from '@material-ui/core/IconButton';
 import ImageIcon from '@material-ui/icons/Image';
 import ImageEditor from './ImageEditor';
+import MenuButton from 'lib/components/MenuButton';
 import MenuPopup from './MenuPopup';
 import Popover from 'lib/components/Popover';
+import { Transforms } from 'slate';
 import { useAnchor } from 'lib/hooks';
 import { useSlate } from 'slate-react';
 
@@ -14,6 +15,11 @@ const Button = () => {
   const [anchorEl, onClose, onOpen] = useAnchor();
   const [selection, setSelection] = useState(null);
   const editor = useSlate();
+
+  const handleClose = () => {
+    Transforms.select(editor, selection);
+    onClose();
+  };
 
   const handleOpen = (...args) => {
     if (editor.selection) {
@@ -29,13 +35,14 @@ const Button = () => {
 
   return (
     <React.Fragment>
-      <IconButton onClick={handleOpen}>
+      <MenuButton onClick={handleOpen}>
         <ImageIcon />
-      </IconButton>
+      </MenuButton>
+
       <Popover
         anchorOrigin={{ horizontal: 'center', vertical: 'bottom' }}
         anchorEl={anchorEl}
-        onClose={onClose}
+        onClose={handleClose}
         open={Boolean(anchorEl)}
         transformOrigin={{
           vertical: 'top',

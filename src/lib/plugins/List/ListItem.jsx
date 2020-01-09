@@ -5,13 +5,14 @@ import Typography from '@material-ui/core/Typography';
 /**
  * ListItem
  */
-const ListItem = React.forwardRef(({ children, ...props }, ref) => (
-  <Typography {...props} component="li" paragraph ref={ref}>
+const ListItem = ({ attributes, children }) => (
+  <Typography {...attributes} component="li" paragraph>
     {children}
   </Typography>
-));
+);
 
 ListItem.propTypes = {
+  attributes: PropTypes.object.isRequired,
   children: PropTypes.node.isRequired
 };
 

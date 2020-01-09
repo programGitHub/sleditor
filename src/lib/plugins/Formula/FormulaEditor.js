@@ -1,5 +1,10 @@
 import { Editor, Transforms } from 'slate';
 
+const types = {
+  BLOCK: 'formula_block',
+  INLINE: 'formula_inline'
+};
+
 function insert(editor, type, math, selection = null) {
   const text = { text: '' };
   const block = {
@@ -8,13 +13,14 @@ function insert(editor, type, math, selection = null) {
     math
   };
 
-  Transforms.insertNodes(editor, block, { at: selection });
+  Transforms.select(editor, selection);
+  Transforms.insertNodes(editor, block);
 }
 
-function update(editor, id, data) {
+function update(editor, selection, data) {
   Transforms.setNodes(editor, data, {
-    at: [],
-    match: n => n.id === id
+    at: selection,
+    match: n => n.type === types.BLOCK || n.type === types.INLINE
   });
 }
 

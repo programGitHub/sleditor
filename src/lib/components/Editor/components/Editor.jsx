@@ -12,14 +12,13 @@ import ButtonReadOnly from './ButtonReadOnly';
 import { Button as ButtonTitle } from 'lib/plugins/Title';
 import { ButtonBullet, ButtonNumber, withList } from 'lib/plugins/List';
 import Container from './Container';
-import { createEditor, Transforms } from 'slate';
+import { createEditor } from 'slate';
 import CssBaseline from '@material-ui/core/CssBaseline';
 import { Editable, Slate, withReact } from 'slate-react';
 import Element from './Element';
 import Leaf from './Leaf';
 import Toolbar from '@material-ui/core/Toolbar';
-import withID from 'lib/plugins/ID';
-import { withParagraph } from 'lib/plugins/Paragraph';
+import { withHistory } from 'slate-history';
 import 'typeface-roboto';
 
 /**
@@ -27,15 +26,14 @@ import 'typeface-roboto';
  */
 const Editor = ({ onChange, value }) => {
   const [readOnly, setReadOnly] = useState(false);
-  const [selection, setSelection] = useState(null);
-  const renderElement = useCallback(props => <Element {...props} />, []);
+  const renderElement = useCallback(Element, []);
   const renderLeaf = useCallback(props => <Leaf {...props} />, []);
   const editor = useMemo(
     () =>
-      withFormula(
-        withParagraph(
+      withHistory(
+        withFormula(
           withHighlight(
-            withList(withImage(withLink(withID(withReact(createEditor())))))
+            withList(withImage(withLink(withReact(createEditor()))))
           )
         )
       ),
@@ -66,12 +64,6 @@ const Editor = ({ onChange, value }) => {
             />
           </Toolbar>
           <Editable
-            onBlur={() => {
-              setSelection(editor.selection);
-            }}
-            onFocus={() => {
-              if (selection) Transforms.select(editor, selection);
-            }}
             readOnly={readOnly}
             renderElement={renderElement}
             renderLeaf={renderLeaf}

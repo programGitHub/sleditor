@@ -1,7 +1,7 @@
 import React from 'react';
-import IconButton from '@material-ui/core/IconButton';
 import ListBulletIcon from '@material-ui/icons/FormatListBulleted';
 import ListEditor from './ListEditor';
+import MenuButton from 'lib/components/MenuButton';
 import { useSlate } from 'slate-react';
 
 /**
@@ -16,14 +16,14 @@ const ButtonBullet = () => {
   };
 
   return (
-    <IconButton
+    <MenuButton
       color={
         ListEditor.isActive(editor, 'list-bullet') ? 'secondary' : 'default'
       }
       onClick={handleClick}
     >
       <ListBulletIcon />
-    </IconButton>
+    </MenuButton>
   );
 };
 

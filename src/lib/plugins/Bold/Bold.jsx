@@ -5,8 +5,8 @@ import Typography from '@material-ui/core/Typography';
 /**
  * Bold
  */
-const Bold = ({ children, ...props }) => (
-  <Typography {...props} color="secondary" component="span">
+const Bold = ({ children }) => (
+  <Typography color="secondary" component="span" variant="inherit">
     {children}
   </Typography>
 );

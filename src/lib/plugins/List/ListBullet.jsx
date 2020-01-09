@@ -5,13 +5,14 @@ import Box from '@material-ui/core/Box';
 /**
  * ListBullet
  */
-const ListBullet = React.forwardRef(({ children, ...props }, ref) => (
-  <Box {...props} component="ul" ref={ref}>
+const ListBullet = ({ attributes, children }) => (
+  <Box {...attributes} component="ul">
     {children}
   </Box>
-));
+);
 
 ListBullet.propTypes = {
+  attributes: PropTypes.object.isRequired,
   children: PropTypes.node.isRequired
 };
 

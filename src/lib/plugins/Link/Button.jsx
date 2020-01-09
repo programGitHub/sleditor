@@ -1,10 +1,10 @@
 import React, { useState } from 'react';
-import IconButton from '@material-ui/core/IconButton';
 import LinkEditor from './LinkEditor';
 import LinkIcon from '@material-ui/icons/Link';
+import MenuButton from 'lib/components/MenuButton';
 import MenuPopup from './MenuPopup';
 import Popover from 'lib/components/Popover';
-import { Range } from 'slate';
+import { Range, Transforms } from 'slate';
 import { useAnchor } from 'lib/hooks';
 import { useSlate } from 'slate-react';
 
@@ -16,6 +16,11 @@ const Button = () => {
   const [selection, setSelection] = useState(null);
   const editor = useSlate();
   const isActive = LinkEditor.isActive(editor);
+
+  const handleClose = () => {
+    Transforms.select(editor, selection);
+    onClose();
+  };
 
   const handleOpen = (...args) => {
     if (isActive) {
@@ -33,17 +38,17 @@ const Button = () => {
 
   return (
     <React.Fragment>
-      <IconButton
+      <MenuButton
         color={isActive ? 'secondary' : 'default'}
         onClick={handleOpen}
       >
         <LinkIcon />
-      </IconButton>
+      </MenuButton>
 
       <Popover
         anchorOrigin={{ horizontal: 'center', vertical: 'bottom' }}
         anchorEl={anchorEl}
-        onClose={onClose}
+        onClose={handleClose}
         open={Boolean(anchorEl)}
         transformOrigin={{
           vertical: 'top',

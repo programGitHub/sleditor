@@ -1,7 +1,7 @@
 import React from 'react';
 import BoldEditor from './BoldEditor';
 import BoldIcon from '@material-ui/icons/FormatBold';
-import IconButton from '@material-ui/core/IconButton';
+import MenuButton from 'lib/components/MenuButton';
 import { useSlate } from 'slate-react';
 
 /**
@@ -16,12 +16,12 @@ const Button = () => {
   };
 
   return (
-    <IconButton
+    <MenuButton
       color={BoldEditor.isBold(editor) ? 'secondary' : 'default'}
       onClick={handleClick}
     >
       <BoldIcon />
-    </IconButton>
+    </MenuButton>
   );
 };
 

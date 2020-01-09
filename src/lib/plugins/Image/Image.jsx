@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import PropTypes from 'prop-types';
 import Box from '@material-ui/core/Box';
 import clsx from 'clsx';
@@ -6,6 +6,7 @@ import Form from './Form';
 import ImageEditor from './ImageEditor';
 import { makeStyles } from '@material-ui/core/styles';
 import Popover from 'lib/components/Popover';
+import { Transforms } from 'slate';
 import { useAnchor } from 'lib/hooks';
 import { useFocused, useSelected, useSlate } from 'slate-react';
 
@@ -26,74 +27,82 @@ const useStyles = makeStyles(theme => ({
 /**
  * Image
  */
-const Image = React.forwardRef(
-  ({ align, children, id, url, ...props }, ref) => {
-    const editor = useSlate();
-    const [anchor, onClose, onOpen] = useAnchor();
-    const classes = useStyles();
-    const focused = useFocused();
-    const selected = useSelected();
+const Image = ({ attributes, children, element }) => {
+  const { align, url } = element;
 
-    const open = Boolean(anchor);
-    const active = (focused && selected) || open;
+  const editor = useSlate();
+  const [anchor, onClose, onOpen] = useAnchor();
+  const classes = useStyles();
+  const focused = useFocused();
+  const selected = useSelected();
+  const [selection, setSelection] = useState(null);
 
-    const handleChange = ({ target }) => {
-      ImageEditor.update(editor, id, { [target.name]: target.value });
-    };
+  const open = Boolean(anchor);
+  const active = (focused && selected) || open;
 
-    return (
-      <React.Fragment>
-        <Box
-          {...props}
-          display="flex"
-          justifyContent={align}
-          marginBottom={2}
-          marginTop={2}
-          onClick={onOpen}
-          ref={ref}
-        >
-          <Box contentEditable={false}>
-            <img
-              alt=""
-              className={clsx(classes.img, {
-                [classes.active]: active
-              })}
-              src={url}
-            />
-          </Box>
-          {children}
+  const handleChange = ({ target }) => {
+    ImageEditor.update(editor, selection, { [target.name]: target.value });
+  };
+
+  const handleClose = (...args) => {
+    Transforms.select(editor, selection);
+    onClose(...args);
+  };
+
+  const handleOpen = (...args) => {
+    setSelection(editor.selection);
+    onOpen(...args);
+  };
+
+  return (
+    <React.Fragment>
+      <Box
+        {...attributes}
+        display="flex"
+        justifyContent={align}
+        marginBottom={2}
+        marginTop={2}
+        onDoubleClick={handleOpen}
+      >
+        <Box contentEditable={false}>
+          <img
+            alt=""
+            className={clsx(classes.img, {
+              [classes.active]: active
+            })}
+            src={url}
+          />
         </Box>
-        <Popover
-          anchorEl={anchor}
-          anchorOrigin={{
-            vertical: 'center',
-            horizontal: 'center'
-          }}
-          onClose={onClose}
-          open={open}
-          transformOrigin={{
-            vertical: 'center',
-            horizontal: 'center'
-          }}
-        >
-          <Box width={500}>
-            <Form align={align} onChange={handleChange} update url={url} />
-          </Box>
-        </Popover>
-      </React.Fragment>
-    );
-  }
-);
-
-Image.defaultProps = {
-  align: 'center'
+        {children}
+      </Box>
+      <Popover
+        anchorEl={anchor}
+        anchorOrigin={{
+          vertical: 'center',
+          horizontal: 'center'
+        }}
+        onClose={handleClose}
+        open={open}
+        transformOrigin={{
+          vertical: 'center',
+          horizontal: 'center'
+        }}
+      >
+        <Box width={500}>
+          <Form align={align} onChange={handleChange} update url={url} />
+        </Box>
+      </Popover>
+    </React.Fragment>
+  );
 };
 
 Image.propTypes = {
-  align: PropTypes.string.isRequired,
-  children: PropTypes.node.isRequired,
-  id: PropTypes.string.isRequired,
-  url: PropTypes.string.isRequired
+  attributes: PropTypes.object.isRequired,
+  children: PropTypes.node,
+  element: PropTypes.shape({
+    align: PropTypes.string.isRequired,
+    url: PropTypes.string.isRequired
+  }).isRequired
 };
 
 export default Image;

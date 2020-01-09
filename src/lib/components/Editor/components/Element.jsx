@@ -11,83 +11,41 @@ import { Title } from 'lib/plugins/Title';
 /**
  * Element
  */
-const Element = ({ attributes, children, element }) => {
-  switch (element.type) {
+const Element = props => {
+  switch (props.element.type) {
     case 'formula_block':
-      return (
-        <FormulaBlock {...attributes} {...element}>
-          {children}
-        </FormulaBlock>
-      );
+      return <FormulaBlock {...props} />;
 
     case 'formula_inline':
-      return (
-        <FormulaInline {...attributes} {...element}>
-          {children}
-        </FormulaInline>
-      );
+      return <FormulaInline {...props} />;
 
     case 'highlight':
-      return (
-        <Highlight {...attributes} {...element}>
-          {children}
-        </Highlight>
-      );
+      return <Highlight {...props} />;
 
     case 'image':
-      return (
-        <Image {...attributes} {...element}>
-          {children}
-        </Image>
-      );
+      return <Image {...props} />;
 
     case 'link':
-      return (
-        <Link {...attributes} {...element}>
-          {children}
-        </Link>
-      );
+      return <Link {...props} />;
 
     case 'list-bullet':
-      return (
-        <ListBullet {...attributes} {...element}>
-          {children}
-        </ListBullet>
-      );
+      return <ListBullet {...props} />;
 
     case 'list-item':
-      return (
-        <ListItem {...attributes} {...element}>
-          {children}
-        </ListItem>
-      );
+      return <ListItem {...props} />;
 
     case 'list-number':
-      return (
-        <ListNumber {...attributes} {...element}>
-          {children}
-        </ListNumber>
-      );
+      return <ListNumber {...props} />;
 
     case 'title':
-      return (
-        <Title {...attributes} {...element}>
-          {children}
-        </Title>
-      );
+      return <Title {...props} />;
 
     default:
-      return (
-        <Paragraph {...attributes} {...element}>
-          {children}
-        </Paragraph>
-      );
+      return <Paragraph {...props} />;
   }
 };
 
 Element.propTypes = {
-  attributes: PropTypes.object.isRequired,
-  children: PropTypes.node.isRequired,
   element: PropTypes.shape({
     type: PropTypes.string.isRequired
   }).isRequired

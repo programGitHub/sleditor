@@ -24,19 +24,20 @@ function getColor(category) {
 /**
  * Highlight
  */
-const Highlight = React.forwardRef(({ category, children, ...props }, ref) => {
+const Highlight = ({ attributes, children, element }) => {
+  const { category } = element;
+
   const focused = useFocused();
   const selected = useSelected();
 
   return (
     <Box
-      {...props}
+      {...attributes}
       bgcolor={getColor(category)}
       borderRadius={4}
       padding={2}
       paddingBottom={0.1}
       position="relative"
-      ref={ref}
     >
       <Popup open={focused && selected}>
         <Form category={category} />
@@ -44,15 +45,14 @@ const Highlight = React.forwardRef(({ category, children, ...props }, ref) => {
       {children}
     </Box>
   );
-});
-
-Highlight.defaultProps = {
-  category: 'default'
 };
 
 Highlight.propTypes = {
-  category: PropTypes.string.isRequired,
-  children: PropTypes.node.isRequired
+  attributes: PropTypes.object.isRequired,
+  children: PropTypes.node.isRequired,
+  element: PropTypes.shape({
+    category: PropTypes.string.isRequired
+  }).isRequired
 };
 
 export default Highlight;

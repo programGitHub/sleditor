@@ -11,77 +11,77 @@ const App = () => {
         { text: 'Title ' },
         {
           children: [{ text: '' }],
-          id: 'math_1',
           math: '2x',
           type: 'formula_inline'
         },
         { text: ' with formula.' }
       ],
-      id: 'title_1',
       type: 'title'
     },
     {
+      category: 'info',
+      children: [
+        {
+          children: [
+            { text: 'A line of text in a paragraph.' },
+            {
+              children: [{ text: 'Un Super Lien' }],
+              type: 'link',
+              url: 'url'
+            },
+            { text: 'A line of text in a paragraph.' },
+            {
+              children: [{ text: 'Un Super Lien' }],
+              type: 'link',
+              url: 'url'
+            }
+          ],
+          type: 'paragraph'
+        },
+        {
+          follow: true,
+          children: [
+            {
+              children: [{ text: 'list item 3' }],
+              type: 'list-item'
+            },
+            {
+              children: [{ text: 'list item 4' }],
+              type: 'list-item'
+            }
+          ],
+          type: 'list-number'
+        }
+      ],
+      type: 'highlight'
+    },
+    {
+      follow: true,
       children: [
         {
           children: [{ text: 'list item 1' }],
-          id: 'listItem1',
           type: 'list-item'
         },
         {
           children: [{ text: 'list item 2' }],
-          id: 'listItem2',
           type: 'list-item'
         }
       ],
-      id: 'list_1',
       type: 'list-number'
     },
     {
-      id: 'test_1',
-      children: [
-        { text: 'A line of text in a paragraph.' },
-        {
-          children: [{ text: 'Un Super Lien' }],
-          id: 'testLink',
-          type: 'link',
-          url: 'url'
-        },
-        { text: 'A line of text in a paragraph.' }
-      ],
-      type: 'paragraph'
-    },
-    {
-      children: [
-        {
-          children: [{ text: 'list item 3' }],
-          id: 'listItem3',
-          type: 'list-item'
-        },
-        {
-          children: [{ text: 'list item 4' }],
-          id: 'listItem4',
-          type: 'list-item'
-        }
-      ],
-      id: 'list_2',
-      type: 'list-number'
-    },
-    {
-      id: 'test_2',
       children: [{ text: '' }],
       math: '2x+4',
       type: 'formula_block'
     },
     {
-      id: 'test_6',
+      category: 'default',
       children: [
         {
-          id: 'test_3',
           children: [{ text: 'ceci est un test' }],
           type: 'paragraph'
         },
         {
-          id: 'test_4',
           children: [{ text: 'ceci est un test' }],
           type: 'paragraph'
         }
@@ -89,7 +89,7 @@ const App = () => {
       type: 'highlight'
     },
     {
-      id: 'test_5',
+      align: 'center',
       children: [{ text: '' }],
       type: 'image',
       url:

@@ -1,5 +1,5 @@
 import React from 'react';
-import IconButton from '@material-ui/core/IconButton';
+import MenuButton from 'lib/components/MenuButton';
 import TitleEditor from './TitleEditor';
 import TitleIcon from '@material-ui/icons/Title';
 import { useSlate } from 'slate-react';
@@ -16,12 +16,12 @@ const Button = () => {
   };
 
   return (
-    <IconButton
+    <MenuButton
       color={TitleEditor.isActive(editor) ? 'secondary' : 'default'}
       onClick={handleClick}
     >
       <TitleIcon />
-    </IconButton>
+    </MenuButton>
   );
 };
 

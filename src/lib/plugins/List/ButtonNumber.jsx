@@ -1,7 +1,7 @@
 import React from 'react';
-import IconButton from '@material-ui/core/IconButton';
 import ListNumberIcon from '@material-ui/icons/FormatListNumbered';
 import ListEditor from './ListEditor';
+import MenuButton from 'lib/components/MenuButton';
 import { useSlate } from 'slate-react';
 
 /**
@@ -16,14 +16,14 @@ const ButtonNumber = () => {
   };
 
   return (
-    <IconButton
+    <MenuButton
       color={
         ListEditor.isActive(editor, 'list-number') ? 'secondary' : 'default'
       }
       onClick={handleClick}
     >
       <ListNumberIcon />
-    </IconButton>
+    </MenuButton>
   );
 };
 

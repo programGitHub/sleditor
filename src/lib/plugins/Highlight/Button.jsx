@@ -1,16 +1,19 @@
 import React, { useMemo, useState } from 'react';
 import { categories } from './Highlight';
-import IconButton from '@material-ui/core/IconButton';
 import HighlightIcon from '@material-ui/icons/Highlight';
 import HighlightEditor from './HighlightEditor';
+import MenuButton from 'lib/components/MenuButton';
 import Popover from 'lib/components/Popover';
+import { Transforms } from 'slate';
+import { useAnchor } from 'lib/hooks';
 import { useSlate } from 'slate-react';
 
 /**
  * Button
  */
 const Button = () => {
-  const [anchorEl, setAnchorEl] = useState(null);
+  const [selection, setSelection] = useState(null);
+  const [anchor, onClose, onOpen] = useAnchor();
   const editor = useSlate();
   const arr = useMemo(
     () =>
@@ -21,38 +24,49 @@ const Button = () => {
     []
   );
 
-  const onClose = () => {
-    setAnchorEl(null);
-  };
-
-  const onOpen = e => {
-    setAnchorEl(e.target);
-  };
-
   const handleCategory = cat => () => {
-    HighlightEditor.toggle(editor, cat);
+    HighlightEditor.toggle(editor, cat, selection);
     onClose();
+  };
+
+  const handleClose = () => {
+    Transforms.select(editor, selection);
+    onClose();
+  };
+
+  const handleOpen = (...args) => {
+    if (window.getSelection) {
+      window.getSelection().removeAllRanges();
+    } else if (document.selection) {
+      document.selection.empty();
+    }
+
+    if (editor.selection) {
+      setSelection(editor.selection);
+      onOpen(...args);
+    }
   };
 
   return (
     <React.Fragment>
-      <IconButton onClick={onOpen}>
+      <MenuButton onClick={handleOpen}>
         <HighlightIcon />
-      </IconButton>
+      </MenuButton>
+
       <Popover
         anchorOrigin={{ horizontal: 'center', vertical: 'bottom' }}
-        anchorEl={anchorEl}
-        onClose={onClose}
-        open={Boolean(anchorEl)}
+        anchorEl={anchor}
+        onClose={handleClose}
+        open={Boolean(anchor)}
         transformOrigin={{
           vertical: 'top',
           horizontal: 'center'
         }}
       >
         {arr.map(({ icon, id }) => (
-          <IconButton key={id} onClick={handleCategory(id)} size="small">
+          <MenuButton key={id} onClick={handleCategory(id)} size="small">
             {icon}
-          </IconButton>
+          </MenuButton>
         ))}
       </Popover>
     </React.Fragment>

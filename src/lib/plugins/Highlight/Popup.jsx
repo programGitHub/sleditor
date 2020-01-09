@@ -16,15 +16,7 @@ const Popup = ({ children, open }) => (
     top={0}
   >
     <Zoom in={open}>
-      <Paper elevation={1}>
-        <Box
-          onMouseDown={e => {
-            e.preventDefault();
-          }}
-        >
-          {children}
-        </Box>
-      </Paper>
+      <Paper elevation={1}>{children}</Paper>
     </Zoom>
   </Box>
 );

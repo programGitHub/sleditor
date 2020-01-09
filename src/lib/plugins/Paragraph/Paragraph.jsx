@@ -5,13 +5,14 @@ import Typography from '@material-ui/core/Typography';
 /**
  * Paragraph
  */
-const Paragraph = React.forwardRef(({ children, ...props }, ref) => (
-  <Typography {...props} color="textPrimary" component="p" paragraph ref={ref}>
+const Paragraph = ({ attributes, children }) => (
+  <Typography {...attributes} color="textPrimary" component="p" paragraph>
     {children}
   </Typography>
-));
+);
 
 Paragraph.propTypes = {
+  attributes: PropTypes.object.isRequired,
   children: PropTypes.node.isRequired
 };
 

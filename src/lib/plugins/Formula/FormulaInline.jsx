@@ -1,52 +1,62 @@
-import React from 'react';
+import React, { useState } from 'react';
 import PropTypes from 'prop-types';
 import FormulaEditor from './FormulaEditor';
 import { MathInline } from 'lib/components/Math';
 import PopoverTextField from 'lib/components/PopoverTextField';
+import { Transforms } from 'slate';
 import { useAnchor } from 'lib/hooks';
 import { useSlate } from 'slate-react';
 
 /**
  * FormulaInline
  */
-const FormulaInline = React.forwardRef(
-  ({ children, id, math, ...props }, ref) => {
-    const editor = useSlate();
-    const [anchor, onClose, onOpen] = useAnchor();
+const FormulaInline = ({ attributes, children, element }) => {
+  const { math } = element;
+  const { ref } = attributes;
 
-    const onChange = e => {
-      e.preventDefault();
-      FormulaEditor.update(editor, id, { math: e.target.value });
-    };
+  const editor = useSlate();
+  const [anchor, onClose, onOpen] = useAnchor();
+  const [selection, setSelection] = useState(null);
 
-    return (
-      <React.Fragment>
-        <span
-          {...props}
-          onClick={() => {
-            onOpen({ target: ref.current });
-          }}
-          ref={ref}
-        >
-          <MathInline>{math}</MathInline>
-          {children}
-        </span>
-        <PopoverTextField
-          anchorEl={anchor}
-          onChange={onChange}
-          onClose={onClose}
-          open={Boolean(anchor)}
-          value={math}
-        />
-      </React.Fragment>
-    );
-  }
-);
+  const onChange = e => {
+    e.preventDefault();
+    FormulaEditor.update(editor, selection, { math: e.target.value });
+  };
+
+  const handleClose = (...args) => {
+    Transforms.select(editor, selection);
+    onClose(...args);
+  };
+
+  const handleOpen = () => {
+    setSelection(editor.selection);
+    onOpen({ target: ref.current });
+  };
+
+  return (
+    <React.Fragment>
+      <span {...attributes} onDoubleClick={handleOpen}>
+        <MathInline>{math}</MathInline>
+        {children}
+      </span>
+
+      <PopoverTextField
+        anchorEl={anchor}
+        onChange={onChange}
+        onClose={handleClose}
+        open={Boolean(anchor)}
+        value={math}
+      />
+    </React.Fragment>
+  );
+};
 
 FormulaInline.propTypes = {
-  children: PropTypes.node.isRequired,
-  id: PropTypes.string.isRequired,
-  math: PropTypes.string.isRequired
+  attributes: PropTypes.object.isRequired,
+  children: PropTypes.node,
+  element: PropTypes.shape({
+    math: PropTypes.string.isRequired
+  }).isRequired
 };
 
 export default FormulaInline;

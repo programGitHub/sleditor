@@ -2,8 +2,8 @@ import React, { useMemo } from 'react';
 import PropTypes from 'prop-types';
 import Box from '@material-ui/core/Box';
 import { categories } from './Highlight';
-import IconButton from '@material-ui/core/IconButton';
 import HighlightEditor from './HighlightEditor';
+import MenuButton from 'lib/components/MenuButton';
 import { useSlate } from 'slate-react';
 
 /**
@@ -27,14 +27,14 @@ const Form = ({ category }) => {
   return (
     <Box alignItems="center" display="flex">
       {arr.map(({ icon, id }) => (
-        <IconButton
+        <MenuButton
           color={category === id ? 'secondary' : 'default'}
           key={id}
           onClick={handleCategory(id)}
           size="small"
         >
           {icon}
-        </IconButton>
+        </MenuButton>
       ))}
     </Box>
   );

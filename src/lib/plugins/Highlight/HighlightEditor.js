@@ -14,7 +14,8 @@ function isHighlight(node) {
   return Element.isElement(node) && node.type === TYPE;
 }
 
-function toggle(editor, category) {
+function toggle(editor, category, selection) {
+  Transforms.select(editor, selection);
   const active = isActive(editor, category);
 
   Transforms.unwrapNodes(editor, {
@@ -22,9 +23,9 @@ function toggle(editor, category) {
     split: true
   });
 
-  Transforms.setNodes(editor, {
-    type: 'paragraph'
-  });
+  // Transforms.setNodes(editor, {
+  //   type: 'paragraph'
+  // });
 
   if (!active) {
     const block = {

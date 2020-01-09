@@ -5,19 +5,19 @@ import Typography from '@material-ui/core/Typography';
 /**
  * Title
  */
-const Title = React.forwardRef(({ children, ...props }, ref) => (
+const Title = ({ attributes, children }) => (
   <Typography
-    {...props}
+    {...attributes}
     color="textSecondary"
     component="div"
-    ref={ref}
     variant="h4"
   >
     {children}
   </Typography>
-));
+);
 
 Title.propTypes = {
+  attributes: PropTypes.object.isRequired,
   children: PropTypes.node.isRequired
 };
 

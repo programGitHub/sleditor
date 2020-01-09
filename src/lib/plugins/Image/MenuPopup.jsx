@@ -3,8 +3,7 @@ import PropTypes from 'prop-types';
 import Box from '@material-ui/core/Box';
 import DoneIcon from '@material-ui/icons/Done';
 import Form from './Form';
-import IconButton from '@material-ui/core/IconButton';
-import { isImageUrl } from './withImage';
+import MenuButton from 'lib/components/MenuButton';
 
 /**
  * MenuPopup
@@ -17,7 +16,7 @@ const MenuPopup = ({ onValid }) => {
   };
 
   const handleClick = () => {
-    if (value.length && isImageUrl(value)) {
+    if (value.length) {
       onValid(value);
     }
   };
@@ -30,9 +29,9 @@ const MenuPopup = ({ onValid }) => {
       width={300}
     >
       <Form align="" onChange={handleChange} url={value} />
-      <IconButton onClick={handleClick}>
+      <MenuButton onClick={handleClick}>
         <DoneIcon />
-      </IconButton>
+      </MenuButton>
     </Box>
   );
 };

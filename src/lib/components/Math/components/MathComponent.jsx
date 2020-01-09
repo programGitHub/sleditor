@@ -22,8 +22,6 @@ const MathComponent = ({ children, component, ...props }) => {
     }
   }, [children]);
 
-  console.log(err);
-
   return (
     <Typography
       variant="inherit"

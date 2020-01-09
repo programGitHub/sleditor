@@ -1,4 +1,5 @@
-import { Editor, Element, Transforms } from 'slate';
+import { Editor, Element, Transforms, Path } from 'slate';
+import { ReactEditor } from 'slate-react';
 
 const type = {
   BULLET: 'list-bullet',
@@ -6,27 +7,37 @@ const type = {
   NUMBER: 'list-number'
 };
 
-function getStart(editor, id) {
-  const { children: nodes } = editor;
-  const lists = nodes.filter(node => node.type === type.NUMBER);
-  const index = lists.findIndex(node => node.id === id);
-
-  if (index === 0) {
+function getStart(editor, el, n) {
+  if (!el.follow) {
     return 1;
   }
 
-  const antecedents = lists.slice(0, index);
-  const last = antecedents.pop();
+  const path = ReactEditor.findPath(editor, el);
+  const startPath = [...path.slice(0, -1), 0];
+  const [...nodes] =
+    n ||
+    Editor.nodes(editor, {
+      at: {
+        anchor: { path: startPath, offset: 0 },
+        focus: { path, offset: 0 }
+      },
+      match: n => {
+        if (n.type !== type.NUMBER) {
+          return false;
+        }
 
-  if (!last) {
+        return Path.isSibling(ReactEditor.findPath(editor, n), path);
+      },
+      mode: 'lowest'
+    });
+
+  if (nodes.length === 0) {
     return 1;
   }
 
-  if (!last.follow) {
-    return last.children.length + 1;
-  }
+  const next = nodes.pop()[0];
 
-  return getStart(editor, last.id) + last.children.length;
+  return getStart(editor, next, nodes) + next.children.length;
 }
 
 function isActive(editor, listType) {
@@ -64,6 +75,7 @@ function toggle(editor, listType) {
     const block =
       listType === 'list-number'
         ? {
+            follow: false,
             children: [],
             type: listType
           }
@@ -76,10 +88,10 @@ function toggle(editor, listType) {
   }
 }
 
-function update(editor, id, data) {
+function update(editor, data) {
   Transforms.setNodes(editor, data, {
-    at: [],
-    match: n => n.id === id
+    at: editor.selection,
+    match: n => n.type === type.BULLET || n.type === type.NUMBER
   });
 }
 
