@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import PropTypes from 'prop-types';
+import FormulaColor from './FormulaColor';
 import FormulaEditor from './FormulaEditor';
 import { MathInline } from 'lib/components/Math';
 import PopoverTextField from 'lib/components/PopoverTextField';
@@ -36,7 +37,9 @@ const FormulaInline = ({ attributes, children, element }) => {
   return (
     <React.Fragment>
       <span {...attributes} onDoubleClick={handleOpen}>
-        <MathInline>{math}</MathInline>
+        <FormulaColor active={Boolean(anchor)}>
+          <MathInline>{math}</MathInline>
+        </FormulaColor>
         {children}
       </span>
 

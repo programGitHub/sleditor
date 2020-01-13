@@ -26,7 +26,7 @@ const MathComponent = ({ children, component, ...props }) => {
     <Typography
       variant="inherit"
       {...props}
-      color={err ? 'error' : 'inherit'}
+      color={err ? 'error' : undefined}
       component={component}
       ref={ref}
     >

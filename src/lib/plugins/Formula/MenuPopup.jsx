@@ -9,7 +9,7 @@ import LinearIcon from '@material-ui/icons/LinearScale';
 /**
  * MenuPopup
  */
-const MenuPopup = ({ onValid }) => {
+const MenuPopup = ({ expanded, onValid }) => {
   const [value, setValue] = useState('');
 
   const handleChange = ({ target }) => {
@@ -17,14 +17,18 @@ const MenuPopup = ({ onValid }) => {
   };
 
   const handleClick = type => () => {
-    if (value.length) {
+    if (expanded ^ value.length) {
       onValid(type, value);
     }
   };
 
   return (
-    <Box display="flex" flexDirection="column" width={300}>
-      <Form onChange={handleChange} value={value} />
+    <Box
+      display="flex"
+      flexDirection="column"
+      width={!expanded ? 300 : undefined}
+    >
+      {!expanded && <Form onChange={handleChange} value={value} />}
       <Box display="flex" justifyContent="flex-end">
         <IconButton onClick={handleClick('formula_block')}>
           <FullscreenIcon />
@@ -38,6 +42,7 @@ const MenuPopup = ({ onValid }) => {
 };
 
 MenuPopup.propTypes = {
+  expanded: PropTypes.bool.isRequired,
   onValid: PropTypes.func.isRequired
 };
 

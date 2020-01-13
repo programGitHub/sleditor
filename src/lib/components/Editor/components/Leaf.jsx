@@ -7,7 +7,7 @@ import { Bold } from 'lib/plugins/Bold';
  */
 const Leaf = ({ attributes, children, leaf }) => {
   if (leaf.bold) {
-    return <Bold>{children}</Bold>;
+    return <Bold attributes={attributes}>{children}</Bold>;
   }
 
   return <span {...attributes}>{children}</span>;

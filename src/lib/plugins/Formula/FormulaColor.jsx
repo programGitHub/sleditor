@@ -1,6 +1,5 @@
-import React from 'react';
+import React, { Children } from 'react';
 import PropTypes from 'prop-types';
-import Box from '@material-ui/core/Box';
 import clsx from 'clsx';
 import { makeStyles } from '@material-ui/core/styles';
 import { useFocused, useSelected } from 'slate-react';
@@ -22,14 +21,12 @@ const FormulaColor = ({ active, children }) => {
   const focused = useFocused();
   const selected = useSelected();
 
-  return (
-    <Box
-      className={clsx(classes.root, {
-        [classes.active]: active || (focused && selected)
-      })}
-    >
-      {children}
-    </Box>
+  const clsProp = clsx(classes.root, {
+    [classes.active]: active || (focused && selected)
+  });
+
+  return Children.map(children, child =>
+    React.cloneElement(child, { className: clsProp })
   );
 };
 

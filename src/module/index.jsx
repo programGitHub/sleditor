@@ -1,10 +1,23 @@
 import React, { useState } from 'react';
-import Editor from 'lib';
+import Box from '@material-ui/core/Box';
+import { createMuiTheme, ThemeProvider } from '@material-ui/core/styles';
+import Editor, { Editable, MenuButton, Toolbar } from 'lib';
+import LockIcon from '@material-ui/icons/Lock';
+import { orange, purple } from '@material-ui/core/colors';
+import SaveIcon from '@material-ui/icons/Save';
+
+const theme = createMuiTheme({
+  palette: {
+    primary: purple,
+    secondary: orange
+  }
+});
 
 /**
  * App
  */
 const App = () => {
+  const [readOnly, setReadOnly] = useState(false);
   const [value, setValue] = useState([
     {
       children: [
@@ -97,7 +110,31 @@ const App = () => {
     }
   ]);
 
-  return <Editor onChange={v => setValue(v)} value={value} />;
+  return (
+    <ThemeProvider theme={theme}>
+      <Editor onChange={v => setValue(v)} value={value}>
+        <Toolbar>
+          <Box flex={1} />
+          <MenuButton
+            color={readOnly ? 'secondary' : 'default'}
+            onClick={() => {
+              setReadOnly(!readOnly);
+            }}
+          >
+            <LockIcon />
+          </MenuButton>
+          <MenuButton
+            onClick={() => {
+              console.log(JSON.stringify(value));
+            }}
+          >
+            <SaveIcon />
+          </MenuButton>
+        </Toolbar>
+        <Editable readOnly={readOnly} />
+      </Editor>
+    </ThemeProvider>
+  );
 };
 
 export default App;

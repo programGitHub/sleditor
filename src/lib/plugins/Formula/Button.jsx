@@ -4,7 +4,7 @@ import FunctionsIcon from '@material-ui/icons/Functions';
 import MenuButton from 'lib/components/MenuButton';
 import MenuPopup from './MenuPopup';
 import Popover from 'lib/components/Popover';
-import { Transforms } from 'slate';
+import { Range, Transforms } from 'slate';
 import { useAnchor } from 'lib/hooks';
 import { useSlate } from 'slate-react';
 
@@ -49,7 +49,10 @@ const Button = () => {
           horizontal: 'center'
         }}
       >
-        <MenuPopup onValid={handleValid} />
+        <MenuPopup
+          expanded={!!selection && !Range.isCollapsed(selection)}
+          onValid={handleValid}
+        />
       </Popover>
     </React.Fragment>
   );

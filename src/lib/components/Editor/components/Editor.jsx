@@ -1,33 +1,21 @@
-import React, { useCallback, useMemo, useState } from 'react';
+import React, { useMemo } from 'react';
 import PropTypes from 'prop-types';
-import { Button as ButtonBold } from 'lib/plugins/Bold';
-import { Button as ButtonFormula, withFormula } from 'lib/plugins/Formula';
-import {
-  Button as ButtonHighlight,
-  withHighlight
-} from 'lib/plugins/Highlight';
-import { Button as ButtonImage, withImage } from 'lib/plugins/Image';
-import { Button as ButtonLink, withLink } from 'lib/plugins/Link';
-import ButtonReadOnly from './ButtonReadOnly';
-import { Button as ButtonTitle } from 'lib/plugins/Title';
-import { ButtonBullet, ButtonNumber, withList } from 'lib/plugins/List';
 import Container from './Container';
 import { createEditor } from 'slate';
 import CssBaseline from '@material-ui/core/CssBaseline';
-import { Editable, Slate, withReact } from 'slate-react';
-import Element from './Element';
-import Leaf from './Leaf';
-import Toolbar from '@material-ui/core/Toolbar';
+import { Slate, withReact } from 'slate-react';
+import { withFormula } from 'lib/plugins/Formula';
+import { withHighlight } from 'lib/plugins/Highlight';
+import { withImage } from 'lib/plugins/Image';
+import { withLink } from 'lib/plugins/Link';
+import { withList } from 'lib/plugins/List';
 import { withHistory } from 'slate-history';
 import 'typeface-roboto';
 
 /**
  * Editor
  */
-const Editor = ({ onChange, value }) => {
-  const [readOnly, setReadOnly] = useState(false);
-  const renderElement = useCallback(Element, []);
-  const renderLeaf = useCallback(props => <Leaf {...props} />, []);
+const Editor = ({ children, onChange, value }) => {
   const editor = useMemo(
     () =>
       withHistory(
@@ -40,34 +28,14 @@ const Editor = ({ onChange, value }) => {
     []
   );
 
-  console.log(editor.children);
+  // console.log(editor.children);
 
   return (
     <React.Fragment>
       <CssBaseline />
       <Container>
         <Slate editor={editor} onChange={onChange} value={value}>
-          <Toolbar>
-            <ButtonBold />
-            <ButtonTitle />
-            <ButtonLink />
-            <ButtonFormula />
-            <ButtonImage />
-            <ButtonHighlight />
-            <ButtonBullet />
-            <ButtonNumber />
-            <ButtonReadOnly
-              color={readOnly ? 'secondary' : 'default'}
-              onClick={() => {
-                setReadOnly(!readOnly);
-              }}
-            />
-          </Toolbar>
-          <Editable
-            readOnly={readOnly}
-            renderElement={renderElement}
-            renderLeaf={renderLeaf}
-          />
+          {children}
         </Slate>
       </Container>
     </React.Fragment>
@@ -75,6 +43,7 @@ const Editor = ({ onChange, value }) => {
 };
 
 Editor.propTypes = {
+  children: PropTypes.node.isRequired,
   onChange: PropTypes.func.isRequired,
   value: PropTypes.arrayOf(PropTypes.object).isRequired
 };
