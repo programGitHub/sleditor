@@ -2,7 +2,7 @@ import React, { useMemo } from 'react';
 import PropTypes from 'prop-types';
 import Container from './Container';
 import { createEditor } from 'slate';
-import CssBaseline from '@material-ui/core/CssBaseline';
+// import CssBaseline from '@material-ui/core/CssBaseline';
 import { Slate, withReact } from 'slate-react';
 import { withFormula } from 'lib/plugins/Formula';
 import { withHighlight } from 'lib/plugins/Highlight';
@@ -10,7 +10,7 @@ import { withImage } from 'lib/plugins/Image';
 import { withLink } from 'lib/plugins/Link';
 import { withList } from 'lib/plugins/List';
 import { withHistory } from 'slate-history';
-import 'typeface-roboto';
+// import 'typeface-roboto';
 
 /**
  * Editor
@@ -32,7 +32,7 @@ const Editor = ({ children, onChange, value }) => {
 
   return (
     <React.Fragment>
-      <CssBaseline />
+      {/* <CssBaseline /> */}
       <Container>
         <Slate editor={editor} onChange={onChange} value={value}>
           {children}
