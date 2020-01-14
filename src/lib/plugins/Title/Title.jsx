@@ -10,6 +10,7 @@ const Title = ({ attributes, children }) => (
     {...attributes}
     color="textSecondary"
     component="div"
+    paragraph
     variant="h4"
   >
     {children}

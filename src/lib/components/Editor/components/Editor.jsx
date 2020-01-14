@@ -1,8 +1,6 @@
 import React, { useMemo } from 'react';
 import PropTypes from 'prop-types';
-import Container from './Container';
 import { createEditor } from 'slate';
-// import CssBaseline from '@material-ui/core/CssBaseline';
 import { Slate, withReact } from 'slate-react';
 import { withFormula } from 'lib/plugins/Formula';
 import { withHighlight } from 'lib/plugins/Highlight';
@@ -10,7 +8,6 @@ import { withImage } from 'lib/plugins/Image';
 import { withLink } from 'lib/plugins/Link';
 import { withList } from 'lib/plugins/List';
 import { withHistory } from 'slate-history';
-// import 'typeface-roboto';
 
 /**
  * Editor
@@ -31,14 +28,9 @@ const Editor = ({ children, onChange, value }) => {
   // console.log(editor.children);
 
   return (
-    <React.Fragment>
-      {/* <CssBaseline /> */}
-      <Container>
-        <Slate editor={editor} onChange={onChange} value={value}>
-          {children}
-        </Slate>
-      </Container>
-    </React.Fragment>
+    <Slate editor={editor} onChange={onChange} value={value}>
+      {children}
+    </Slate>
   );
 };
 

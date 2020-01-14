@@ -13,6 +13,7 @@ const Title = ({
 }) => React.createElement(Typography, _extends({}, attributes, {
   color: "textSecondary",
   component: "div",
+  paragraph: true,
   variant: "h4"
 }), children);
 

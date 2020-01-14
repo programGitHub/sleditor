@@ -1,10 +1,13 @@
 import React, { useState } from 'react';
 import Box from '@material-ui/core/Box';
+import Container from '@material-ui/core/Container';
 import { createMuiTheme, ThemeProvider } from '@material-ui/core/styles';
+import CssBaseline from '@material-ui/core/CssBaseline';
 import Editor, { Editable, MenuButton, Toolbar } from 'lib';
 import LockIcon from '@material-ui/icons/Lock';
 import { orange, purple } from '@material-ui/core/colors';
 import SaveIcon from '@material-ui/icons/Save';
+import 'typeface-roboto';
 
 const theme = createMuiTheme({
   palette: {
@@ -111,29 +114,34 @@ const App = () => {
   ]);
 
   return (
-    <ThemeProvider theme={theme}>
-      <Editor onChange={v => setValue(v)} value={value}>
-        <Toolbar>
-          <Box flex={1} />
-          <MenuButton
-            color={readOnly ? 'secondary' : 'default'}
-            onClick={() => {
-              setReadOnly(!readOnly);
-            }}
-          >
-            <LockIcon />
-          </MenuButton>
-          <MenuButton
-            onClick={() => {
-              console.log(JSON.stringify(value));
-            }}
-          >
-            <SaveIcon />
-          </MenuButton>
-        </Toolbar>
-        <Editable readOnly={readOnly} />
-      </Editor>
-    </ThemeProvider>
+    <React.Fragment>
+      <CssBaseline />
+      <ThemeProvider theme={theme}>
+        <Container maxWidth="md">
+          <Editor onChange={v => setValue(v)} value={value}>
+            <Toolbar>
+              <Box flex={1} />
+              <MenuButton
+                color={readOnly ? 'secondary' : 'default'}
+                onClick={() => {
+                  setReadOnly(!readOnly);
+                }}
+              >
+                <LockIcon />
+              </MenuButton>
+              <MenuButton
+                onClick={() => {
+                  console.log(JSON.stringify(value));
+                }}
+              >
+                <SaveIcon />
+              </MenuButton>
+            </Toolbar>
+            <Editable readOnly={readOnly} />
+          </Editor>
+        </Container>
+      </ThemeProvider>
+    </React.Fragment>
   );
 };
 
