@@ -46,6 +46,7 @@ const Highlight = ({
   return React.createElement(Box, _extends({}, attributes, {
     bgcolor: getColor(category),
     borderRadius: 4,
+    marginBottom: 2,
     padding: 2,
     paddingBottom: 0.1,
     position: "relative"

@@ -137,6 +137,7 @@ const App = () => {
                 <SaveIcon />
               </MenuButton>
             </Toolbar>
+
             <Editable readOnly={readOnly} />
           </Editor>
         </Container>

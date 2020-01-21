@@ -1,6 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { Bold } from '../../../plugins/Bold';
+import { Italic } from '../../../plugins/Italic';
 /**
  * Leaf
  */
@@ -12,6 +13,12 @@ const Leaf = ({
 }) => {
   if (leaf.bold) {
     return React.createElement(Bold, {
+      attributes: attributes
+    }, children);
+  }
+
+  if (leaf.italic) {
+    return React.createElement(Italic, {
       attributes: attributes
     }, children);
   }

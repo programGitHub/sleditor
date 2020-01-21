@@ -2,8 +2,8 @@ import React, { useState } from 'react';
 import FormulaEditor from './FormulaEditor';
 import FunctionsIcon from '@material-ui/icons/Functions';
 import MenuButton from 'lib/components/MenuButton';
+import MenuPopover from 'lib/components/MenuPopover';
 import MenuPopup from './MenuPopup';
-import Popover from 'lib/components/Popover';
 import { Range, Transforms } from 'slate';
 import { useAnchor } from 'lib/hooks';
 import { useSlate } from 'slate-react';
@@ -39,21 +39,16 @@ const Button = () => {
         <FunctionsIcon />
       </MenuButton>
 
-      <Popover
-        anchorOrigin={{ horizontal: 'center', vertical: 'bottom' }}
+      <MenuPopover
         anchorEl={anchorEl}
         onClose={handleClose}
         open={Boolean(anchorEl)}
-        transformOrigin={{
-          vertical: 'top',
-          horizontal: 'center'
-        }}
       >
         <MenuPopup
           expanded={!!selection && !Range.isCollapsed(selection)}
           onValid={handleValid}
         />
-      </Popover>
+      </MenuPopover>
     </React.Fragment>
   );
 };

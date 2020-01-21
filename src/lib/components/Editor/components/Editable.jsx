@@ -26,7 +26,8 @@ const HOTKEYS = {
             type: 'paragraph'
           },
           {
-            at: EditorSlate.end(editor, p)
+            at: EditorSlate.end(editor, p),
+            select: true
           }
         );
 
@@ -54,7 +55,8 @@ const HOTKEYS = {
             type: 'paragraph'
           },
           {
-            at: p
+            at: p,
+            select: true
           }
         );
 
