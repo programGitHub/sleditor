@@ -3,7 +3,7 @@ import { categories } from './Highlight';
 import HighlightIcon from '@material-ui/icons/Highlight';
 import HighlightEditor from './HighlightEditor';
 import MenuButton from 'lib/components/MenuButton';
-import Popover from 'lib/components/Popover';
+import MenuPopover from 'lib/components/MenuPopover';
 import { Transforms } from 'slate';
 import { useAnchor } from 'lib/hooks';
 import { useSlate } from 'slate-react';
@@ -53,22 +53,17 @@ const Button = () => {
         <HighlightIcon />
       </MenuButton>
 
-      <Popover
-        anchorOrigin={{ horizontal: 'center', vertical: 'bottom' }}
+      <MenuPopover
         anchorEl={anchor}
         onClose={handleClose}
         open={Boolean(anchor)}
-        transformOrigin={{
-          vertical: 'top',
-          horizontal: 'center'
-        }}
       >
         {arr.map(({ icon, id }) => (
           <MenuButton key={id} onClick={handleCategory(id)} size="small">
             {icon}
           </MenuButton>
         ))}
-      </Popover>
+      </MenuPopover>
     </React.Fragment>
   );
 };

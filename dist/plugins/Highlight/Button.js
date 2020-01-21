@@ -3,7 +3,7 @@ import { categories } from './Highlight';
 import HighlightIcon from '@material-ui/icons/Highlight';
 import HighlightEditor from './HighlightEditor';
 import MenuButton from '../../components/MenuButton';
-import Popover from '../../components/Popover';
+import MenuPopover from '../../components/MenuPopover';
 import { Transforms } from 'slate';
 import { useAnchor } from '../../hooks';
 import { useSlate } from 'slate-react';
@@ -44,18 +44,10 @@ const Button = () => {
 
   return React.createElement(React.Fragment, null, React.createElement(MenuButton, {
     onClick: handleOpen
-  }, React.createElement(HighlightIcon, null)), React.createElement(Popover, {
-    anchorOrigin: {
-      horizontal: 'center',
-      vertical: 'bottom'
-    },
+  }, React.createElement(HighlightIcon, null)), React.createElement(MenuPopover, {
     anchorEl: anchor,
     onClose: handleClose,
-    open: Boolean(anchor),
-    transformOrigin: {
-      vertical: 'top',
-      horizontal: 'center'
-    }
+    open: Boolean(anchor)
   }, arr.map(({
     icon,
     id

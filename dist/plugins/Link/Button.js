@@ -2,8 +2,8 @@ import React, { useState } from 'react';
 import LinkEditor from './LinkEditor';
 import LinkIcon from '@material-ui/icons/Link';
 import MenuButton from '../../components/MenuButton';
+import MenuPopover from '../../components/MenuPopover';
 import MenuPopup from './MenuPopup';
-import Popover from '../../components/Popover';
 import { Range, Transforms } from 'slate';
 import { useAnchor } from '../../hooks';
 import { useSlate } from 'slate-react';
@@ -39,18 +39,10 @@ const Button = () => {
   return React.createElement(React.Fragment, null, React.createElement(MenuButton, {
     color: isActive ? 'secondary' : 'default',
     onClick: handleOpen
-  }, React.createElement(LinkIcon, null)), React.createElement(Popover, {
-    anchorOrigin: {
-      horizontal: 'center',
-      vertical: 'bottom'
-    },
+  }, React.createElement(LinkIcon, null)), React.createElement(MenuPopover, {
     anchorEl: anchorEl,
     onClose: handleClose,
-    open: Boolean(anchorEl),
-    transformOrigin: {
-      vertical: 'top',
-      horizontal: 'center'
-    }
+    open: Boolean(anchorEl)
   }, React.createElement(MenuPopup, {
     expanded: !!selection && !Range.isCollapsed(selection),
     onValid: handleValid

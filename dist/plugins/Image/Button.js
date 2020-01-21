@@ -2,8 +2,8 @@ import React, { useState } from 'react';
 import ImageIcon from '@material-ui/icons/Image';
 import ImageEditor from './ImageEditor';
 import MenuButton from '../../components/MenuButton';
+import MenuPopover from '../../components/MenuPopover';
 import MenuPopup from './MenuPopup';
-import Popover from '../../components/Popover';
 import { Transforms } from 'slate';
 import { useAnchor } from '../../hooks';
 import { useSlate } from 'slate-react';
@@ -35,18 +35,10 @@ const Button = () => {
 
   return React.createElement(React.Fragment, null, React.createElement(MenuButton, {
     onClick: handleOpen
-  }, React.createElement(ImageIcon, null)), React.createElement(Popover, {
-    anchorOrigin: {
-      horizontal: 'center',
-      vertical: 'bottom'
-    },
+  }, React.createElement(ImageIcon, null)), React.createElement(MenuPopover, {
     anchorEl: anchorEl,
     onClose: handleClose,
-    open: Boolean(anchorEl),
-    transformOrigin: {
-      vertical: 'top',
-      horizontal: 'center'
-    }
+    open: Boolean(anchorEl)
   }, React.createElement(MenuPopup, {
     onValid: handleValid
   })));
